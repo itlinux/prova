@@ -1,5 +1,4 @@
 name: Docker Image Remo
-
 on:
   push:
     branches: ["main"]
