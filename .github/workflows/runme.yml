@@ -1,5 +1,4 @@
-name: Docker Image CI
-
+name: Docker Image Remo
 on:
   push:
     branches: ["main"]
@@ -41,5 +40,5 @@ jobs:
           password: ${{ secrets.GH_PROVA }}
 
       - name: Build the Docker image
-        working-directory: blue
-        run: docker build . --file Dockerfile •-tag prova-blue:$(date +xs).
+        working-directory: ./blue
+        run: docker build . --file Dockerfile --tag prova-blue:$(date +xs)
