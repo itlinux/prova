@@ -39,6 +39,17 @@ jobs:
           username: ${{ secrets.GIT_USERNAME }}
           password: ${{ secrets.GH_PROVA }}
 
-      - name: Build the Docker image
-        working-directory: ./blue
-        run: docker build . --file Dockerfile --tag prova-blue:$(date +xs)
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+        with:
+          images: itlinux/prova-demo:latest
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
+        with:
+          context: .
+          file: ./blue/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
