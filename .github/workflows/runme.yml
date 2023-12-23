@@ -39,6 +39,16 @@ jobs:
           username: ${{ secrets.GIT_USERNAME }}
           password: ${{ secrets.GH_PROVA }}
 
+      - uses: actions/checkout@v2
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pytest
+          if [ -f blue/requirements.txt ]; then pip install -r ./blue/requirements.txt; fi
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
