@@ -41,5 +41,5 @@ jobs:
           password: ${{ secrets.GH_PROVA }}
 
       - name: Build the Docker image
-        working-directory: blue
-        run: docker build . --file blue/Dockerfile •-tag prova-blue:$(date +xs)
+        working-directory: ./blue
+        run: docker build . --file Dockerfile --tag prova-blue:$(date +xs)
