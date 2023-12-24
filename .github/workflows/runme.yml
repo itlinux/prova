@@ -13,14 +13,6 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
-
-      - name: Automatic requirements.txt for Python Project
-        uses: ryan-rozario/pipreqs-action@master
-        # Put an example of mandatory inputs here
-        with:
-          PROJECT_PATH: ./blue #default is the root of the repository
-          REQUIREMENT_PATH: ./bllue/requirements.txt
-
         # we need qemu and buildx so we can build multiple platforms later
       - name: Set up QEMU
         id: qemu
@@ -46,11 +38,6 @@ jobs:
           username: ${{ secrets.GIT_USERNAME }}
           password: ${{ secrets.GH_PROVA }}
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install flake8 pytest
-          if [ -f blue/requirements.txt ]; then pip install -r ./blue/requirements.txt; fi
       - name: Extract metadata (tags, labels) for Docker
         id: meta
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
