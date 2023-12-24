@@ -1,5 +1,5 @@
 # Pull the minimal Ubuntu image
-FROM ubuntu:latest
+FROM python3.8
 
 # Install Nginx
 RUN apt update
