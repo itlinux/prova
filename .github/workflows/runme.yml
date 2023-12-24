@@ -38,17 +38,27 @@ jobs:
           username: ${{ secrets.GIT_USERNAME }}
           password: ${{ secrets.GH_PROVA }}
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
+      - name: Docker meta
+        id: docker_meta
+        uses: docker/metadata-action@v3.3.0
         with:
-          images: itlinux/prova-demo
+          # list of Docker images to use as base name for tags
+          images: |
+            itlinux/prova
+            ghcr.io/itlinux/prova
+          flavor: |
+            latest=false
+          tags: type=raw,value=latest
 
       - name: Build and push Docker image
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
-          context: .
+          platforms: linux/amd64, linux/arm64, linux/arm/v7
           file: ./blue/Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          builder: ${{ steps.buildx.outputs.name }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          # I don't push during a pull_request, only build
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}
