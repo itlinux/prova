@@ -43,18 +43,19 @@ jobs:
         uses: docker/metadata-action@v3.3.0
         with:
           # list of Docker images to use as base name for tags
-          images: |
-            itlinux/prova
-            ghcr.io/itlinux/prova
-          flavor: |
+         images: |
+            itlinux/simple-argo
+            ghcr.io/itlinux/simple-argo
+         flavor: |
             latest=false
-          tags: type=raw,value=latest
+         tags:
+            type=raw,value=latest
 
       - name: Build and push Docker image
         uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
           platforms: linux/amd64, linux/arm64, linux/arm/v7
-          file: ./blue/Dockerfile
+          file: ${{ matrix.dockerfile }}
           builder: ${{ steps.buildx.outputs.name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
