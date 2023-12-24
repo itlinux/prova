@@ -8,7 +8,7 @@ RUN apt install -y python3  python3-pip vim btop
 RUN mkdir -p /blue/templates
 COPY . /blue/
 WORKDIR /blue
-RUN python3 -m pip install --no-cache-dir -r requirements.txt
+RUN python3 -m pip install --no-cache-dir -r /blue/requirements.txt
 
 
 # Run the basic blue server
