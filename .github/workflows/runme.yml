@@ -42,5 +42,13 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           push: true
-          tags: itlinux/prova-blue:latest
-
+          tags: itlinux/prova
+      - name: Check out the repo
+        uses: actions/checkout@v4
+      - name: Run the build process with Docker
+        uses: addnab/docker-run-action@v3
+        with:
+          image: itlinux/prova:latest
+          options: -v ${{ github.workspace }}:/blue
+          run: |
+            echo "Hello World"
